@@ -27,6 +27,11 @@ class LoadStreamlitUI:
                     st.warning("Please enter correct API Key")
             
             self.user_controls["selected_usecase"]=st.selectbox("Select Usecase", usecase_options)
+            # If Chat With Web is selected, show Tavily API Key input
+            if self.user_controls["selected_usecase"] == "Chat With Web":
+                os.environ["TAVILY_API_KEY"]=self.user_controls["TAVILY_API_KEY"] = st.session_state["TAVILY_API_KEY"] = st.text_input("Tavily API Key", type="password")
+                if not self.user_controls["TAVILY_API_KEY"]:
+                    st.warning("Please enter your Tavily API Key for web search.")
         return self.user_controls
 
 
