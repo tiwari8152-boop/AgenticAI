@@ -18,7 +18,10 @@ def load_langraph_agenticai_app():
     if not user_input:
         st.error("Error: failed to get user input")
         return
-    user_message =st.chat_input("Enter your message")
+    if st.session_state.IsFetchButtonClicked:
+        user_message = st.session_state.timeframe
+    else:
+        user_message =st.chat_input("Enter your message")
     if user_message:
         try:
             config_llm = GroqLLM(user_input)
@@ -36,6 +39,7 @@ def load_langraph_agenticai_app():
                 DisplayResultStreamlit(usecase, graph, user_message).display_result_on_ui()
             except Exception as e:
                 st.error(f"Error: inside display: {e}")
+                return
         except Exception as e:
             st.error(f"Error: Graph did not load {e}")
             return
